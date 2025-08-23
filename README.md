@@ -23,6 +23,12 @@
  
   deleteGenres() = delete rows form the pivot table(tbl_music_genre) based on music_id (used for updating music genres)
 
+## rating.php
+
+  getUserRatings() = selects all ratings based on user
+
+  getRatingData() = get music and rating data
+
 ## userRequest.php
 
   registerUser = check if value of password and confirmPassword is the same->if the same, hash the password->insert details to database->if not the same, reload the page
@@ -48,5 +54,7 @@
   addRating = insert rating data -> return to music page
   
   deleteRating = delete rating data
+
+  updateRating - update rating data -> return to ratings page
 
   
