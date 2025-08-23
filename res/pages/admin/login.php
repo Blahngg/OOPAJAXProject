@@ -1,7 +1,10 @@
 <?php
-  require "../../../db/user.php";
+  require_once "../../../db/user.php";
 
-  if(isset($_SESSION['user_id'])){
+  if((isset($_SESSION['user_id'])) && (isset($_SESSION['isAdmin']))){
+    header('location: index.php');
+  }
+  elseif(isset($_SESSION['user_id']) && !(isset($_SESSION['isAdmin']))){
     header('location: ../user');
   }
 ?>
@@ -14,7 +17,7 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>User Login</h1>
+  <h1>Admin Login</h1>
   <form action="../../../db/userRequest.php" method="POST">
     <div id="inputCont">
       <div id="message">
@@ -31,7 +34,7 @@
         <input type="password" name="password">
       </div>
       <div id="btnCont">
-        <input type="submit" name="loginUser" value="LOGIN">
+        <input type="submit" name="loginAdmin" value="LOGIN">
         <button type="button">Cancle</button>
       </div>  
       <div id="extraCont">

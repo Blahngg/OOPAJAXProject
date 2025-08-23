@@ -1,4 +1,5 @@
 <?php
+  session_start();
   class DB{
     private $sesrvername = "localhost";
     private $username = "root";
@@ -54,17 +55,19 @@
         $stmt = $this->conn->prepare("INSERT INTO $this->tbl_name($table_columns) VALUES ($prep)");
         $stmt->bind_param($types, ...array_values($data));
         $stmt->execute();
+        $id = $stmt->insert_id;
         $stmt->close();
+        return $id;
       }catch(Exception $e){
         die('Error while inserting data: <br>'. $e);
       }
     }
 
-    public function update($data){
+    public function update($data, $uniqueId){
       try{
         $prep=$types="";
         foreach($data as $key => $value){
-          if($key == 'id'){
+          if($key == $uniqueId){
             $where = "$key=?";
           }
           else{

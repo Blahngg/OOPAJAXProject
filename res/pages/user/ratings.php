@@ -1,12 +1,7 @@
 <?php
-  require "../../../db/audio.php";
-
-  if(!$_SESSION['isAdmin']){
-    header('location: ../error/401.php');
-  }
-
-  $audio = new Audio('tbl_music');
-  $audio->getMusicData();
+  require "../../../db/rating.php";
+  $audio = new Rating('tbl_rating');
+  $audio->getUserRatings();
   $audioData = $audio->res;
 ?>
 
@@ -15,36 +10,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
   <script type="text/javascript" src="../../js/jquery.min.js"></script>
+  <title>Document</title>
 </head>
 <body>
-  <h1>Admin Homepage</h1>
+  <h1>User Ratings</h1>
   <form action="../../../db/userRequest.php" method="POST">
     <input type="submit" value="LOGOUT" name="logoutUser">
   </form>
-  <a href="addAudio.php"><button>ADD</button></a>
   <table>
     <thead>
       <tr>
         <th>Title</th>
         <th>Artist</th>
-        <th>Album</th>
-        <th>Ratings</th>
-        <th>Actions</th>
+        <th>Rating</th>
+        <th>Review</th>
+        <th>Action</th>
       </tr>
     </thead>
-    <tbody id="tableData">
+    <tbody id="tblBody">
       <?php while ($row = mysqli_fetch_assoc($audioData)): ?>
         <tr>
           <td><?php echo $row['title']; ?></td>
           <td><?php echo $row['artist']; ?></td>
-          <td><?php echo $row['album']; ?></td>
-          <td><?php echo $row['average_rating']; ?></td>
+          <td><?php echo $row['rating']; ?></td>
+          <td><?php echo $row['review']; ?></td>
           <td>
-            <a href="view.php?music_id=<?php echo $row['music_id']; ?>"><button>VIEW</button></a>
-            <a href="updateAudio.php?music_id=<?php echo $row['music_id']; ?>"><button>UPDATE</button></a>
-            <button class="deleteBtn" data-id="<?php echo $row['music_id']; ?>">DELETE</button>
+            <a href="viewRating.php?rating_id=<?php echo $row['rating_id'] ?>"><button>UPDATE</button></a>
+            <button class="deleteBtn" data-id="<?php echo $row['rating_id'] ?>">Delete</button>
           </td>
         </tr>
       <?php endwhile; ?>
@@ -52,15 +45,15 @@
   </table>
 </body>
 <script>
-  $('#tableData').on('click', function(e){
+  $('#tblBody').on('click', function(e){
     if($(e.target).attr('class') == 'deleteBtn'){
       id = $(e.target).data('id');
       $.ajax({
-        url: "../../../db/audioRequest.php",
+        url: "../../../db/ratingRequest.php",
         method: "POST",
         data: {
-          'deleteAudio': true,
-          'music_id': $(e.target).data('id')
+          'deleteRating': true,
+          'rating_id': $(e.target).data('id')
         },
         success:function(result){
           alert("DATA DELETED");

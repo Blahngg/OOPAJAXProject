@@ -1,48 +1,54 @@
 <?php
-  require "db.php";
+  require_once "db.php";
   class User extends DB{
 
-    public function __construct(){
+    public function __construct($tbl_name){
       try{
-        DB::__construct("users");
+        DB::__construct($tbl_name);
       }catch(Exception $e){
         die($e);
       }
     }
 
-    public function registerUser($data){
+
+
+    public function loginUser($where, $password){
       try{
-        $table_columns = implode(',', array_keys($data));
-        $prep=$types="";
-        foreach($data as $key => $value){
-          $prep .='?,';
-          $types .= substr(gettype($value),0,1);
-        }
-        $prep = substr($prep, 0, -1);
-        $stmt = $this->conn->prepare("INSERT INTO $this->tbl_name($table_columns) VALUES ($prep)");
-        $stmt->bind_param($types, ...array_values($data));
+        $stmt = $this->conn->prepare("SELECT * FROM $this->tbl_name WHERE username=? OR email=?");
+        $stmt->bind_param('ss', $where, $where);
         $stmt->execute();
-        $stmt->close();
+        $data = $stmt->get_result();
+        while($row = mysqli_fetch_assoc($data)){
+          if(password_verify($password, $row['password'])){
+            $_SESSION['user_id']= $row['user_id'];
+
+            if($row['isAdmin']){
+              $_SESSION['isAdmin'] = true;
+            }
+            else{
+              $_SESSION['isAdmin'] = false;
+            }
+
+            unset($_SESSION['message']);
+          }
+        }
       }catch(Exception $e){
-        die('Error while inserting data: <br>'. $e);
+        die("Error requesting data!. <br>". $e);
       }
     }
 
-    public function loginUser($data){
+    public function logoutUser(){
       try{
-        $table_columns = implode(',', array_keys($data));
-        $prep=$types="";
-        foreach($data as $key => $value){
-          $prep .='?,';
-          $types .= substr(gettype($value),0,1);
+        unset($_SESSION['user_id']);
+        if($_SESSION['isAdmin']){
+          unset($_SESSION['isAdmin']);
+          header('location: ../res/pages/admin/login.php');
         }
-        $prep = substr($prep, 0, -1);
-        $stmt = $this->conn->prepare("INSERT INTO $this->tbl_name($table_columns) VALUES ($prep)");
-        $stmt->bind_param($types, ...array_values($data));
-        $stmt->execute();
-        $stmt->close();
+        else{
+          header('location: ../res/pages/user/login.php');
+        }
       }catch(Exception $e){
-        die('Error while inserting data: <br>'. $e);
+        die("Error requesting data!. <br>". $e);
       }
     }
   }

@@ -1,7 +1,11 @@
 <?php
+  // check nalang yung readme kung anong methods yung kailangan para maidisplay yung data na iba
+  // test mo na rin lahat
+  // edit mo nalang yung mga select query kung may mga data ka na gustong makuha o palabasin
+
   require "../../../db/audio.php";
-  $audio = new Audio('tbl_audio');
-  $audio->select();
+  $audio = new Audio('tbl_music');
+  $audio->getTopRatingMusicData();
   $audioData = $audio->res;
 ?>
 
@@ -13,12 +17,17 @@
   <title>Document</title>
 </head>
 <body>
+  <h1>User Homepage</h1>
+  <form action="../../../db/userRequest.php" method="POST">
+    <input type="submit" value="LOGOUT" name="logoutUser">
+  </form>
+  <a href="ratings.php"><button>Ratings</button></a>
   <table>
     <thead>
       <tr>
         <th>Title</th>
         <th>Artist</th>
-        <th>Player</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -26,12 +35,7 @@
         <tr>
           <td><?php echo $row['title']; ?></td>
           <td><?php echo $row['artist']; ?></td>
-          <td>
-            <audio controls>
-              <source src="<?php echo $audio->selectAudioFIle($row['audio_file_id'], 'filepath'); ?>" type="audio/wav">
-              <source src="<?php echo $audio->selectAudioFIle($row['audio_file_id'], 'filepath'); ?>" type="audio/mp3">
-            </audio>
-          </td>
+          <td><a href="view.php?music_id=<?php echo $row['music_id'] ?>"><button>VIEW</button></a></td>
         </tr>
       <?php endwhile; ?>
     </tbody>
