@@ -2,6 +2,9 @@
   // check nalang yung readme kung anong methods yung kailangan para maidisplay yung data na iba
   // test mo na rin lahat
   // edit mo nalang yung mga select query kung may mga data ka na gustong makuha o palabasin
+  // password nung user1: pass
+  // password nung user2: pass
+  // password nung admin: admin
 
   require "../../../db/audio.php";
   $audio = new Audio('tbl_music');
