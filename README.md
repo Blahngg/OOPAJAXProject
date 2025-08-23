@@ -43,7 +43,7 @@
  
   addStream = add stream data
 
-**ratingRequest.php
+## ratingRequest.php
 
   addRating = insert rating data -> return to music page
   
