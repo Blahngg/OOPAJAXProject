@@ -1,5 +1,10 @@
 <?php
   require "../../../db/rating.php";
+
+  if(!isset($_SESSION['user_id'])){
+    header('location: login.php');
+  }
+
   $audio = new Rating('tbl_rating');
   $audio->getUserRatings();
   $audioData = $audio->res;
@@ -10,14 +15,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/user/ratings.css">
   <script type="text/javascript" src="../../js/jquery.min.js"></script>
   <title>Document</title>
 </head>
 <body>
-  <h1>User Ratings</h1>
-  <form action="../../../db/userRequest.php" method="POST">
-    <input type="submit" value="LOGOUT" name="logoutUser">
-  </form>
+  <div class="header">
+    <h1>User Ratings</h1>
+    <div class="header-buttons">
+      <a href="index.php" class="btn-back">BACK</a>
+      <form action="../../../db/userRequest.php" method="POST">
+        <input type="submit" value="LOGOUT" name="logoutUser">
+      </form>
+    </div>
+  </div>
+
   <table>
     <thead>
       <tr>
@@ -36,8 +48,10 @@
           <td><?php echo $row['rating']; ?></td>
           <td><?php echo $row['review']; ?></td>
           <td>
-            <a href="viewRating.php?rating_id=<?php echo $row['rating_id'] ?>"><button>UPDATE</button></a>
-            <button class="deleteBtn" data-id="<?php echo $row['rating_id'] ?>">Delete</button>
+            <div class="action-buttons">
+              <a href="viewRating.php?rating_id=<?php echo $row['rating_id'] ?>"><button>UPDATE</button></a>
+              <button class="deleteBtn" data-id="<?php echo $row['rating_id'] ?>">Delete</button>
+            </div>
           </td>
         </tr>
       <?php endwhile; ?>

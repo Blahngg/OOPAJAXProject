@@ -15,15 +15,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/admin/index.css">
   <title>Document</title>
   <script type="text/javascript" src="../../js/jquery.min.js"></script>
 </head>
 <body>
-  <h1>Admin Homepage</h1>
-  <form action="../../../db/userRequest.php" method="POST">
-    <input type="submit" value="LOGOUT" name="logoutUser">
-  </form>
-  <a href="addAudio.php"><button>ADD</button></a>
+  <div class="header">
+    <h1>Admin Homepage</h1>
+
+    <div class="top-controls">
+      <a href="addAudio.php"><button class="ratings-btn">Add</button></a>
+      <form action="../../../db/userRequest.php" method="POST">
+        <input type="submit" value="LOGOUT" name="logoutUser" class="logout-btn">
+      </form>
+    </div>
+  </div>
+
   <table>
     <thead>
       <tr>
@@ -42,9 +49,9 @@
           <td><?php echo $row['album']; ?></td>
           <td><?php echo $row['average_rating']; ?></td>
           <td>
-            <a href="view.php?music_id=<?php echo $row['music_id']; ?>"><button>VIEW</button></a>
-            <a href="updateAudio.php?music_id=<?php echo $row['music_id']; ?>"><button>UPDATE</button></a>
-            <button class="deleteBtn" data-id="<?php echo $row['music_id']; ?>">DELETE</button>
+            <a href="view.php?music_id=<?php echo $row['music_id']; ?>"><button class="action-btn">VIEW</button></a>
+            <a href="updateAudio.php?music_id=<?php echo $row['music_id']; ?>"><button class="action-btn">UPDATE</button></a>
+            <button class="action-btn deleteBtn" data-id="<?php echo $row['music_id']; ?>">DELETE</button>
           </td>
         </tr>
       <?php endwhile; ?>

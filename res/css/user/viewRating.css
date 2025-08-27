@@ -1,0 +1,118 @@
+  /* --- Reset & tokens --- */
+    *, *::before, *::after { box-sizing: border-box; }
+    :root{
+      --card: rgba(255,255,255,0.06);
+      --stroke: rgba(255,255,255,0.10);
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --cyan: #67e8f9;
+      --danger: #b91c1c;
+      --danger-hover: #dc2626;
+      --btn-dark: #374151;
+      --btn-dark-hover: #4b5563;
+      --radius: 12px;
+      --pad: 12px;
+    }
+
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      color:#fff;
+      background: linear-gradient(to bottom, #0f172a, #1e3a8a);
+    }
+
+    h1{
+      margin: 32px 0 0;
+      text-align:center;
+      letter-spacing:.3px;
+    }
+
+    .form-container{
+      max-width: 640px;
+      margin: 40px auto 80px;
+      background: var(--card);
+      padding: 28px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 15px rgba(0,0,0,.35);
+    }
+
+    .form-group{ margin-bottom: 18px; }
+
+    label{
+      display:block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Unified input box used by <p> (read-only), <select>, and <textarea> */
+    .input-box,
+    select,
+    textarea{
+      width: 100%;
+      display:block;
+      padding: var(--pad) calc(var(--pad) + 2px);
+      border-radius: 10px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      line-height: 1.4;
+      outline: none;
+    }
+
+    .input-box{ /* read-only display for Title/Artist */
+      margin: 0;
+    }
+
+    select{
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      background-clip: padding-box;
+    }
+
+    textarea{
+      min-height: 140px;   /* keeps a nice rectangle */
+      resize: none;
+    }
+
+    .form-actions{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      margin-top: 22px;
+      gap: 12px;
+    }
+
+    .btn{
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: .2s ease;
+      text-decoration: none;
+      display:inline-block;
+      text-align:center;
+      white-space: nowrap;
+    }
+
+    .btn-back{
+      background: var(--btn-dark);
+      color:#fff;
+    }
+    .btn-back:hover{ background: var(--btn-dark-hover); }
+
+    .btn-submit{
+      background: var(--cyan);
+      color:#000;
+    }
+    .btn-submit:hover{ filter: brightness(1.05); }
+
+    .btn-delete{
+      background: var(--danger);
+      color:#fff;
+    }
+    .btn-delete:hover{ background: var(--danger-hover); }
+
+    .right-buttons{ display:flex; gap:10px; }

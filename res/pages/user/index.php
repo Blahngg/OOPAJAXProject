@@ -17,14 +17,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/user/index.css">
   <title>Document</title>
 </head>
 <body>
-  <h1>User Homepage</h1>
-  <form action="../../../db/userRequest.php" method="POST">
-    <input type="submit" value="LOGOUT" name="logoutUser">
-  </form>
-  <a href="ratings.php"><button>Ratings</button></a>
+  <div class="header">
+    <h1>User Homepage</h1>
+    <div class="top-controls">
+      <?php if(isset($_SESSION['user_id'])): ?>
+        <a href="ratings.php"><button>Ratings</button></a>
+        <form action="../../../db/userRequest.php" method="POST">
+          <input type="submit" value="LOGOUT" name="logoutUser">
+        </form>
+      <?php else: ?>
+        <a href="login.php"><button>Login</button></a>
+      <?php endif; ?>
+    </div>
+  </div>
+
   <table>
     <thead>
       <tr>

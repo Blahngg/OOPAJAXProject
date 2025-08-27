@@ -1,0 +1,93 @@
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    /* Container for the h1 and the login card */
+    .login-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    h1 {
+      color: #1877f2;
+      font-size: 24px;
+      margin: 0;
+      /* Adjust vertical alignment to center with the card, not the entire form */
+      transform: translateY(-20px);
+    }
+
+    /* Container for the login card */
+    #inputCont {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      text-align: center;
+    }
+
+    /* Styles for the input fields */
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    #message {
+      color: #e04c4c;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    #btnCont {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    #btnCont input,
+    #btnCont button {
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+    }
+
+    #btnCont input[name="loginAdmin"] {
+      background-color: #1877f2;
+      color: #fff;
+      border: none;
+    }
+
+    #btnCont button[type="button"] {
+      background-color: #fff;
+      color: #1877f2;
+      border: 1px solid #1877f2;
+    }
+
+    #extraCont {
+      font-size: 14px;
+      color: #666;
+    }
+
+    #extraCont a {
+      color: #1877f2;
+      text-decoration: none;
+      font-weight: bold;
+    }

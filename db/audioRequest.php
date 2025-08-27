@@ -54,7 +54,9 @@
   }
 
   if(isset($_POST['addStream'])){
-    unset($_POST['addStream']);
-    $db->addStream($_POST['music_id']);
+    if(isset($_SESSION['user_id'])){
+      unset($_POST['addStream']);
+      $db->addStream($_POST['music_id']);
+    }
   }
 ?>

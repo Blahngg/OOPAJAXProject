@@ -41,6 +41,27 @@
       }catch(Exception $e){
         die("Error requesting data!. <br>". $e);
       }
+    
+    }
+    public function checkUserRating($music_id){
+      try{
+        $stmt = $this->conn->prepare(
+          "SELECT *
+          FROM tbl_rating
+          WHERE user_id=? AND music_id=?"
+        );
+        $stmt->bind_param('ii', $_SESSION['user_id'], $music_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if($result && $result->num_rows > 0){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }catch(Exception $e){
+        die("Error requesting data!. <br>". $e);
+      }
     }
   }
 ?>
