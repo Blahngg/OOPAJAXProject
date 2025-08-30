@@ -111,14 +111,16 @@
     public function getRecommendedMusicData(){
       try{
         $stmt = $this->conn->prepare(
-            "SELECT tbl_music.music_id, title, artist, album, tbl_music_genre.genre_id
+            "SELECT tbl_music.music_id, title, artist, album, tbl_music_genre.genre_id, tbl_cover_filepath.filename AS coverFilename,  tbl_cover_filepath.filepath AS coverFIlepath, tbl_audio_filepath.filename AS audioFilename, tbl_audio_filepath.filepath AS audioFilepath
             FROM tbl_music
             INNER JOIN tbl_music_genre ON tbl_music.music_id=tbl_music_genre.music_id
+            INNER JOIN tbl_audio_filepath ON tbl_music.audio_filepath_id = tbl_audio_filepath.audio_filepath_id
+            INNER JOIN tbl_cover_filepath ON tbl_music.cover_filepath_id = tbl_cover_filepath.cover_filepath_id
             WHERE tbl_music_genre.genre_id IN (SELECT DISTINCT tbl_music_genre.genre_id
-                FROM tbl_streams
-                INNER JOIN tbl_users ON tbl_users.user_id=tbl_streams.user_id
-                INNER JOIN tbl_music_genre on tbl_music_genre.music_id=tbl_streams.music_id
-                WHERE tbl_streams.user_id=?)");
+                FROM tbl_like
+                INNER JOIN tbl_users ON tbl_users.user_id=tbl_like.user_id
+                INNER JOIN tbl_music_genre on tbl_music_genre.music_id=tbl_like.music_id
+                WHERE tbl_like.user_id=?)");
         $stmt->bind_param('i', $_SESSION['user_id']);
         $stmt->execute();
         $this->res = $stmt->get_result();
@@ -130,9 +132,11 @@
     public function getTopStreamsMusicData(){
       try{
         $stmt = $this->conn->prepare(
-            "SELECT tbl_music.music_id, title, artist, album, COUNT(tbl_streams.music_id)
+            "SELECT tbl_music.music_id, title, artist, album, COUNT(tbl_streams.music_id) AS streams, tbl_cover_filepath.filename AS coverFilename,  tbl_cover_filepath.filepath AS coverFIlepath, tbl_audio_filepath.filename AS audioFilename, tbl_audio_filepath.filepath AS audioFilepath
             FROM tbl_music
             LEFT JOIN tbl_streams ON tbl_music.music_id=tbl_streams.music_id
+            INNER JOIN tbl_audio_filepath ON tbl_music.audio_filepath_id = tbl_audio_filepath.audio_filepath_id
+            INNER JOIN tbl_cover_filepath ON tbl_music.cover_filepath_id = tbl_cover_filepath.cover_filepath_id
             GROUP BY tbl_music.music_id
             ORDER BY COUNT(tbl_streams.music_id) DESC");
         $stmt->execute();
@@ -145,11 +149,13 @@
     public function getTopRatingMusicData(){
       try{
         $stmt = $this->conn->prepare(
-            "SELECT tbl_music.music_id, title, artist, album, AVG(tbl_rating.rating) as average_rating
+            "SELECT tbl_music.music_id, title, artist, album, AVG(tbl_rating.rating) as average_rating, tbl_cover_filepath.filename AS coverFilename,  tbl_cover_filepath.filepath AS coverFIlepath, tbl_audio_filepath.filename AS audioFilename, tbl_audio_filepath.filepath AS audioFilepath
             FROM tbl_music
             LEFT JOIN tbl_rating ON tbl_music.music_id=tbl_rating.music_id
+            INNER JOIN tbl_audio_filepath ON tbl_music.audio_filepath_id = tbl_audio_filepath.audio_filepath_id
+            INNER JOIN tbl_cover_filepath ON tbl_music.cover_filepath_id = tbl_cover_filepath.cover_filepath_id
             GROUP BY tbl_music.music_id
-            ORDER BY AVG(tbl_rating.rating) DESC;");
+            ORDER BY AVG(tbl_rating.rating) DESC");
         $stmt->execute();
         $this->res = $stmt->get_result();
       }catch(Exception $e){

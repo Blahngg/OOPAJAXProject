@@ -37,11 +37,13 @@
           Your browser does not support the audio element.
         </audio>
 
+        <button id="likeBtn" data-id="<?php echo $row['music_id'] ?>">Like</button>
+
         <form action="../../../db/ratingRequest.php" method="POST">
           <?php if(isset($_SESSION['message'])): ?>
             <span id="message"><?php echo $_SESSION['message']; unset($_SESSION['message']); ?></span>
           <?php endif; ?>
-          <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user_id']); ?>">
+          <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user_id'] ?? ''); ?>">
           <input type="hidden" name="music_id" value="<?php echo htmlspecialchars($row['music_id']); ?>">
 
           <label for="rating">Rating:</label>
@@ -91,5 +93,50 @@
       }
     })
   });
+
+  $(document).ready(function(){
+    $.ajax({
+      url: "../../../db/likeRequest.php",
+      method: "POST",
+      data: {
+        'checkUserLike': true,
+        'music_id': $('#likeBtn').data('id')
+      },
+      success:function(result){
+        if(result.trim() === 'true'){
+          $('#likeBtn').css('background-color', 'blue');
+        }
+      },
+      error:function(error){
+        //console.log(error);
+        alert("Something went wrong!");
+      }
+    })
+  })
+
+  $('#likeBtn').on('click',function(){
+    $.ajax({
+      url: "../../../db/likeRequest.php",
+      method: "POST",
+      data: {
+        'addLike': true,
+        'music_id': $('#likeBtn').data('id')
+      },
+      success:function(result){
+        if(result.trim() === 'liked'){
+          $('#likeBtn').css('background-color', 'blue');
+        }
+        else if(result.trim() === 'unliked'){
+          $('#likeBtn').css('background-color', '');
+        }
+      },
+      error:function(error){
+        //console.log(error);
+        alert("Something went wrong!");
+      }
+    })
+  })
+
+  
 </script>
 </html>
